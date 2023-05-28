@@ -11,5 +11,7 @@ namespace Server.Models
         [MinLength(3)]
         public string Name { get; set; }
 
+        public virtual ICollection<Album> Albums { get; set; } 
+
     }
 }

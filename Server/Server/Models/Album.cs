@@ -15,5 +15,9 @@ namespace Server.Models
         public DateTime ReleaseDate { get; set; }
 
         public string Notes { get; set; }
+
+        public Performer Performer { get; set; }
+
+        public ICollection<Song> Songs { get; set; }
     }
 }

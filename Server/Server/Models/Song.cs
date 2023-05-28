@@ -12,5 +12,8 @@ namespace Server.Models
         public string Name { get; set; }
 
         public string Notes { get; set; }
+
+        public Album Album { get; set; }
+
     }
 }
