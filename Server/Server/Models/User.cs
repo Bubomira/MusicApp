@@ -17,5 +17,7 @@ namespace Server.Models
         [Required]
         public bool IsAdmin { get; set; }
 
+        public ICollection<AlbumsUsers> AlbumsUsers { get; set; }
+
     }
 }
