@@ -15,5 +15,7 @@ namespace Server.Models
 
         public int Likes { get; set; }
 
+        public ICollection<SongsPlaylists> SongsPlaylists { get; set; }
+
     }
 }
