@@ -19,5 +19,7 @@ namespace Server.Models
 
         public ICollection<AlbumsUsers> AlbumsUsers { get; set; }
 
+        public ICollection<SongsUsers> SongsUsers { get; set; }
+
     }
 }
