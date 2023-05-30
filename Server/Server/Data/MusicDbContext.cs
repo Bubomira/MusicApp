@@ -25,6 +25,8 @@ namespace Server.Data
         public DbSet<SongsUsers> SongsUsers { get; set; }
 
         public DbSet<SongsPlaylists> SongsPlaylists { get; set; }
+
+        public DbSet<PlaylistsUsers> OwnedPlaylistsUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //many-to-many with albums->users (liked albums)
@@ -70,6 +72,21 @@ namespace Server.Data
                 .HasOne(sp => sp.Playlist)
                 .WithMany(sp=>sp.SongsPlaylists)
                 .HasForeignKey(sp => sp.PlaylistId);
+
+            //many-to-many with playlists->users (ownedPlaylists)
+
+            modelBuilder.Entity<PlaylistsUsers>()
+                .HasKey(pc => new { pc.UserId, pc.PlaylistId });
+
+            modelBuilder.Entity<PlaylistsUsers>()
+                .HasOne(pu => pu.User)
+                .WithMany(pu => pu.OwnedPlaylistsUsers)
+                .HasForeignKey(pu => pu.UserId);
+
+            modelBuilder.Entity<PlaylistsUsers>()
+                .HasOne(pu => pu.Playlist)
+                .WithMany(pu => pu.OwnedPlaylistsUsers)
+                .HasForeignKey(pu => pu.PlaylistId);
 
         }
     }

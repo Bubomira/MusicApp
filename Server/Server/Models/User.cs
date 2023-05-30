@@ -17,9 +17,13 @@ namespace Server.Models
         [Required]
         public bool IsAdmin { get; set; }
 
+        //liked albums
         public ICollection<AlbumsUsers> AlbumsUsers { get; set; }
 
+        //liked songs
         public ICollection<SongsUsers> SongsUsers { get; set; }
+
+        public ICollection<PlaylistsUsers> OwnedPlaylistsUsers { get; set; }
 
     }
 }
