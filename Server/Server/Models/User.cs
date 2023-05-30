@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Server.Models
 {
@@ -23,7 +24,9 @@ namespace Server.Models
         //liked songs
         public ICollection<SongsUsers> SongsUsers { get; set; }
 
-        public ICollection<PlaylistsUsers> OwnedPlaylistsUsers { get; set; }
+        public ICollection<OwnedUserPlaylists> OwnedPlaylistsUsers { get; set; }
+
+        public ICollection<LikedUserPlaylists> LikedPlaylistsUsers { get; set; }
 
     }
 }

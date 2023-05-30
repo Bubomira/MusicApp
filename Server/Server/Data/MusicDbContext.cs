@@ -26,7 +26,9 @@ namespace Server.Data
 
         public DbSet<SongsPlaylists> SongsPlaylists { get; set; }
 
-        public DbSet<PlaylistsUsers> OwnedPlaylistsUsers { get; set; }
+        public DbSet<OwnedUserPlaylists> OwnedPlaylistsUsers { get; set; }
+
+        public ICollection<LikedUserPlaylists> LikedPlaylistsUsers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //many-to-many with albums->users (liked albums)
@@ -75,17 +77,34 @@ namespace Server.Data
 
             //many-to-many with playlists->users (ownedPlaylists)
 
-            modelBuilder.Entity<PlaylistsUsers>()
-                .HasKey(pc => new { pc.UserId, pc.PlaylistId });
+            modelBuilder.Entity<OwnedUserPlaylists>()
+                .HasKey(pc => new { pc.OwnerId, pc.PlaylistId });
 
-            modelBuilder.Entity<PlaylistsUsers>()
-                .HasOne(pu => pu.User)
+            modelBuilder.Entity<OwnedUserPlaylists>()
+                .HasOne(pu => pu.Owner)
                 .WithMany(pu => pu.OwnedPlaylistsUsers)
-                .HasForeignKey(pu => pu.UserId);
+                .HasForeignKey(pu => pu.OwnerId);
 
-            modelBuilder.Entity<PlaylistsUsers>()
-                .HasOne(pu => pu.Playlist)
+            modelBuilder.Entity<OwnedUserPlaylists>()
+                .HasOne(pu => pu.OwnedPlaylist)
                 .WithMany(pu => pu.OwnedPlaylistsUsers)
+                .HasForeignKey(pu => pu.PlaylistId);
+
+            //many-to-many with playlists->users (likedPlaylists)
+
+            modelBuilder.Entity<LikedUserPlaylists>()
+               .HasKey(pc => new { pc.LikerId, pc.PlaylistId });
+
+
+            modelBuilder.Entity<LikedUserPlaylists>()
+                .HasOne(pu => pu.Liker)
+                .WithMany(pu => pu.LikedPlaylistsUsers)
+                .HasForeignKey(pu => pu.LikerId);
+
+
+            modelBuilder.Entity<LikedUserPlaylists>()
+                .HasOne(pu => pu.LikedPlaylist)
+                .WithMany(pu => pu.LikedPlaylistsUsers)
                 .HasForeignKey(pu => pu.PlaylistId);
 
         }
