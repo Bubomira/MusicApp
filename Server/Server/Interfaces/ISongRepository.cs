@@ -6,5 +6,9 @@ namespace Server.Interfaces
     {
         ICollection<Song> GetSongs();
 
+        Song GetSongById(int songId);
+
+        bool CheckIfThereIsSongById(int songId);
+
     }
 }
