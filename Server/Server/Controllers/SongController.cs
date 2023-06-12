@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Server.Interfaces;
 using Server.Models;
 
@@ -9,9 +10,11 @@ namespace Server.Controllers
     public class SongController :Controller
     {
         private readonly ISongRepository _songRepository;
-        public SongController(ISongRepository songRepository)
+        private readonly IMapper _mapper;
+        public SongController(ISongRepository songRepository, IMapper mapper)
         {
             this._songRepository = songRepository;
+            this._mapper = mapper;
         }
         [HttpGet]
         [ProducesResponseType(200,Type= typeof(ICollection<Song>))]
