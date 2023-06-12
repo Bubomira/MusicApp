@@ -12,7 +12,7 @@ namespace Server.DTO.SongDTO
 
         public string AlbumName { get; set; }
 
-        public int ReleaseYear { get; set; }
+        public int ReleaseDate { get; set; }
 
         public string PerformerName { get; set; }
 
