@@ -13,7 +13,9 @@ namespace Server.Models
 
         public string Notes { get; set; }
 
-        public virtual ICollection<Album> Albums { get; set; } 
+        public virtual ICollection<Album> Albums { get; set; }
+
+        public ICollection<SecondaryPerformers> SecondaryPerformers { get; set; }
 
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Server.Data;
 
@@ -11,9 +12,11 @@ using Server.Data;
 namespace Server.Migrations
 {
     [DbContext(typeof(MusicDbContext))]
-    partial class MusicDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230612194930_song-performer")]
+    partial class songperformer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -137,21 +140,6 @@ namespace Server.Migrations
                     b.ToTable("Playlists");
                 });
 
-            modelBuilder.Entity("Server.Models.SecondaryPerformers", b =>
-                {
-                    b.Property<int>("SongId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PerformerId")
-                        .HasColumnType("int");
-
-                    b.HasKey("SongId", "PerformerId");
-
-                    b.HasIndex("PerformerId");
-
-                    b.ToTable("SecondaryPerformers");
-                });
-
             modelBuilder.Entity("Server.Models.Song", b =>
                 {
                     b.Property<int>("Id")
@@ -179,6 +167,21 @@ namespace Server.Migrations
                     b.HasIndex("AlbumId");
 
                     b.ToTable("Songs");
+                });
+
+            modelBuilder.Entity("Server.Models.SongsPerformers", b =>
+                {
+                    b.Property<int>("SongId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PerformerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SongId", "PerformerId");
+
+                    b.HasIndex("PerformerId");
+
+                    b.ToTable("SongsPerformers");
                 });
 
             modelBuilder.Entity("Server.Models.SongsPlaylists", b =>
@@ -303,25 +306,6 @@ namespace Server.Migrations
                     b.Navigation("Owner");
                 });
 
-            modelBuilder.Entity("Server.Models.SecondaryPerformers", b =>
-                {
-                    b.HasOne("Server.Models.Performer", "Performer")
-                        .WithMany("SecondaryPerformers")
-                        .HasForeignKey("PerformerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Server.Models.Song", "Song")
-                        .WithMany("SecondaryPerformers")
-                        .HasForeignKey("SongId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Performer");
-
-                    b.Navigation("Song");
-                });
-
             modelBuilder.Entity("Server.Models.Song", b =>
                 {
                     b.HasOne("Server.Models.Album", "Album")
@@ -331,6 +315,25 @@ namespace Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Album");
+                });
+
+            modelBuilder.Entity("Server.Models.SongsPerformers", b =>
+                {
+                    b.HasOne("Server.Models.Performer", "Performer")
+                        .WithMany("SongsPerformers")
+                        .HasForeignKey("PerformerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Server.Models.Song", "Song")
+                        .WithMany("SongsPerformers")
+                        .HasForeignKey("SongId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Performer");
+
+                    b.Navigation("Song");
                 });
 
             modelBuilder.Entity("Server.Models.SongsPlaylists", b =>
@@ -382,7 +385,7 @@ namespace Server.Migrations
                 {
                     b.Navigation("Albums");
 
-                    b.Navigation("SecondaryPerformers");
+                    b.Navigation("SongsPerformers");
                 });
 
             modelBuilder.Entity("Server.Models.Playlist", b =>
@@ -396,7 +399,7 @@ namespace Server.Migrations
 
             modelBuilder.Entity("Server.Models.Song", b =>
                 {
-                    b.Navigation("SecondaryPerformers");
+                    b.Navigation("SongsPerformers");
 
                     b.Navigation("SongsPlaylists");
 

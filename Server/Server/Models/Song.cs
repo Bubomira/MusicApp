@@ -13,11 +13,16 @@ namespace Server.Models
 
         public string Notes { get; set; }
 
+        public int ReleaseDate { get; set; }
+
         public Album Album { get; set; }
 
+        //liked songs
         public ICollection<SongsUsers> SongsUsers { get; set; }
 
         public ICollection<SongsPlaylists> SongsPlaylists { get; set; }
+
+        public ICollection<SecondaryPerformers> SecondaryPerformers { get; set; }
 
     }
 }
