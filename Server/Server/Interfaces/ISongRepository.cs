@@ -8,7 +8,7 @@ namespace Server.Interfaces
 
         Task<Song> GetSongById(int songId);
 
-        bool CheckIfThereIsSongById(int songId);
+        Task<bool> CheckIfThereIsSongById(int songId);
 
     }
 }

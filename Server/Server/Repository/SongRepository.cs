@@ -27,9 +27,9 @@ namespace Server.Repository
                 .FirstOrDefaultAsync();
         }
 
-        public bool CheckIfThereIsSongById(int songId)
+        public Task<bool> CheckIfThereIsSongById(int songId)
         {
-            return _musicDbContext.Songs.Any(s => s.Id == songId);
+            return _musicDbContext.Songs.AnyAsync(s => s.Id == songId);
         }
     }
 }

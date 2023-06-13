@@ -33,7 +33,7 @@ namespace Server.Controllers
 
         public async Task<IActionResult> GetSongById(int songId)
         {
-            if (!_songRepository.CheckIfThereIsSongById(songId))
+            if (!await _songRepository.CheckIfThereIsSongById(songId))
             {
                 return NotFound();
             }
