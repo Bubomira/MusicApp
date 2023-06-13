@@ -9,15 +9,14 @@ namespace Server.Helper
         public MappingProfiles()
         {
             CreateMap<Song, SongDetailsDto>()
-                .ForMember(s => s.PerformerName,
-                   opt => opt.MapFrom(src =>
-                   src.Album.Performer.Name))
+                .ForMember(sdto => sdto.PerformerName,
+                   opt => opt.MapFrom(s => s.Album.Performer.Name))
                 .ForMember(s => s.AlbumName,
-                   opt => opt.MapFrom(src =>
-                   src.Album.Name))
+                   opt => opt.MapFrom(s => s.Album.Name))
                 .ForMember(s => s.SecondaryPerformers,
-                     opt => opt.MapFrom(src =>
-                     src.SecondaryPerformers.Select(x => x.Performer.Name).ToList()));
+                opt => opt.MapFrom(src =>
+                  src.SecondaryPerformers.Select(x => x.Performer.Name).ToList()));
+
         }
 
     }
