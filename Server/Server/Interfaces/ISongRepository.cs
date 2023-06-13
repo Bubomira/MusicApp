@@ -4,9 +4,9 @@ namespace Server.Interfaces
 {
     public interface ISongRepository
     {
-        ICollection<Song> GetSongs();
+        Task<List<Song>> GetSongs();
 
-        Song GetSongById(int songId);
+        Task<Song> GetSongById(int songId);
 
         bool CheckIfThereIsSongById(int songId);
 

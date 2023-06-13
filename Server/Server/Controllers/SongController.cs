@@ -31,13 +31,13 @@ namespace Server.Controllers
         [ProducesResponseType(200, Type = typeof(Song))]
         [ProducesResponseType(400)]
 
-        public IActionResult GetSongById(int songId)
+        public async Task<IActionResult> GetSongById(int songId)
         {
             if (!_songRepository.CheckIfThereIsSongById(songId))
             {
                 return NotFound();
             }
-            var wantedSong = _mapper.Map<SongDetailsDto>(_songRepository.GetSongById(songId));
+            var wantedSong = _mapper.Map<SongDetailsDto>(await _songRepository.GetSongById(songId));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

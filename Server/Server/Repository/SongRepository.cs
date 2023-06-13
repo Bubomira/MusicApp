@@ -13,18 +13,18 @@ namespace Server.Repository
             this._musicDbContext = musicDbContext;
         }
 
-        public ICollection<Song> GetSongs()
+        public  Task<List<Song>> GetSongs()
         {
-            return _musicDbContext.Songs.ToList();
+            return _musicDbContext.Songs.ToListAsync();
         }
 
-        public Song GetSongById(int songId)
+        public Task<Song> GetSongById(int songId)
         {
             return _musicDbContext.Songs.Where(s => s.Id == songId)
                 .Include(s=>s.Album)
                 .Include(s=>s.Album.Performer)
                 .Include(s=>s.SecondaryPerformers)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
         }
 
         public bool CheckIfThereIsSongById(int songId)
