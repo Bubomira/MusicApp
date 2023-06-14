@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using Server.Data;
+using Server.DTO.SongDTO;
 using Server.Interfaces;
 using Server.Models;
 
@@ -13,9 +15,14 @@ namespace Server.Repository
             this._musicDbContext = musicDbContext;
         }
 
-        public  Task<List<Song>> GetSongs()
+        public Task<List<Song>> GetWeeklySongs()
         {
-            return _musicDbContext.Songs.ToListAsync();
+            return _musicDbContext.Songs
+                 .Take(10)
+                 .Include(s => s.SecondaryPerformers)
+                 .Include(s => s.Album.Performer)
+                 .ToListAsync();
+            
         }
 
         public Task<Song> GetSongById(int songId)
@@ -31,5 +38,6 @@ namespace Server.Repository
         {
             return _musicDbContext.Songs.AnyAsync(s => s.Id == songId);
         }
+
     }
 }
