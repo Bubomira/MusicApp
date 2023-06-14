@@ -18,13 +18,19 @@ namespace Server.Controllers
             this._songRepository = songRepository;
             this._mapper = mapper;
         }
-        [HttpGet]
+        [HttpGet("weekly")]
         [ProducesResponseType(200, Type = typeof(ICollection<Song>))]
-        public IActionResult GetSongs()
+        public async Task<IActionResult> GetSongs()
         {
-            var songs = _songRepository.GetSongs();
+            var songs =await _songRepository.GetWeeklySongs();
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
-            return Ok(songs);
+
+            List<NormalSongDto> dtos = new List<NormalSongDto>();
+            foreach (var song in songs)
+            {
+                dtos.Add(_mapper.Map<NormalSongDto>(song));
+            }
+            return Ok(dtos);
         }
 
         [HttpGet("details/{songId}")]
