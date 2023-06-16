@@ -10,7 +10,7 @@ namespace Server.Interfaces
 
         public Task<bool> LogoutUser();
 
-        public Task<bool> CheckIfUserExists();
+        public Task<bool> CheckIfUserExistsByUsername();
 
     }
 }

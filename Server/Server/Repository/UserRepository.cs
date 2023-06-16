@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Server.Data;
 using Server.Interfaces;
 using Server.Models;
@@ -25,9 +26,9 @@ namespace Server.Repository
         {
             throw new NotImplementedException();
         }
-        public Task<bool> CheckIfUserExists()
+        public Task<bool> CheckIfUserExistsByUsername(string username)
         {
-            throw new NotImplementedException();
+            return _musicDbContext.Users.AnyAsync(x => x.Username == username);
         }
 
     }
