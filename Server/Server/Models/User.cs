@@ -13,7 +13,12 @@ namespace Server.Models
         public string Username { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public byte[] PasswordHash { get; set; }
+
+        [Required]
+        public byte[] PasswordSalt { get; set; }
+
+        public int MyProperty { get; set; }
 
         [Required]
         public bool IsAdmin { get; set; }
