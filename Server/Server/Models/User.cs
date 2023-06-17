@@ -15,8 +15,6 @@ namespace Server.Models
         [Required]
         public string PasswordHash { get; set; }
 
-        public int MyProperty { get; set; }
-
         [Required]
         public bool IsAdmin { get; set; }
 
