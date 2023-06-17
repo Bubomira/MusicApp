@@ -13,14 +13,12 @@ namespace Server.Controllers
     public class AuthController : Controller
     {
         private readonly IUserRepository _userRepository;
-        private readonly IMapper _mapper;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenManager _tokenManager;
 
-        public AuthController(IUserRepository userRepository, IMapper mapper, IPasswordHasher passwordHasher, ITokenManager tokenManager)
+        public AuthController(IUserRepository userRepository, IPasswordHasher passwordHasher, ITokenManager tokenManager)
         {
             _userRepository = userRepository;
-            _mapper = mapper;
             _passwordHasher = passwordHasher;
             _tokenManager = tokenManager;
         }
