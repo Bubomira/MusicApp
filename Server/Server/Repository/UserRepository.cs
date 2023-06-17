@@ -13,23 +13,30 @@ namespace Server.Repository
         {
             _musicDbContext = musicDbContext;
         }
-        public Task<User> LoginUser()
+        public Task<User> LoginUser(string username)
         {
-            throw new NotImplementedException();
+            return _musicDbContext.Users.Where(x => x.Username == username).FirstOrDefaultAsync();
         }
 
-        public Task<User> RegisterUser()
+        public async Task<User> RegisterUser(string username,string passwordHash)
         {
-            throw new NotImplementedException();
+            User user = new User();
+            user.Username = username;
+            user.PasswordHash = passwordHash;
+
+            _musicDbContext.Users.AddAsync(user);
+            await _musicDbContext.SaveChangesAsync();
+
+            return user;
         }
         public Task<bool> LogoutUser()
         {
             throw new NotImplementedException();
         }
+
         public Task<bool> CheckIfUserExistsByUsername(string username)
         {
             return _musicDbContext.Users.AnyAsync(x => x.Username == username);
         }
-
     }
 }
