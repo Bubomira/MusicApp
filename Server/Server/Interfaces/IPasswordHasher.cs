@@ -2,6 +2,7 @@
 {
     public interface IPasswordHasher
     {
-        public string CreatePasswordHash(string password);
+        public Task<string> CreatePasswordHash(string password);
+        public Task<bool> CheckIfPasswordsAreEqual(string inputPassword, string originalHash);
     }
 }

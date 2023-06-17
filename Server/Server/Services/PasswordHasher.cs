@@ -5,16 +5,29 @@ using System.Text;
 
 namespace Server.Services
 {
-    public class PasswordHasher:IPasswordHasher
+    public class PasswordHasher : IPasswordHasher
     {
-
-        public string CreatePasswordHash(string password)
+        private const int _saltSize = 128 / 8;
+        private const int _keySize = 256 / 8;
+        private const int _iterations = 10000;
+        private static readonly HashAlgorithmName _hashAlgorithmName = HashAlgorithmName.SHA256;
+        private static char Delimeter = ';';
+        public Task<string> CreatePasswordHash(string password)
         {
-            using (var hmac = new HMACSHA512())
-            {
-                var passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return Convert.ToHexString(passwordHash);
-            }
+            var salt = RandomNumberGenerator.GetBytes(_saltSize);
+            var hash = Rfc2898DeriveBytes.Pbkdf2(password, salt, _iterations, _hashAlgorithmName, _keySize);
+
+            return Task.Run(()=>string.Join(Delimeter,Convert.ToBase64String(salt),Convert.ToBase64String(hash)));
+        }
+        public async Task<bool> CheckIfPasswordsAreEqual(string inputPassword, string originalHash)
+        {
+            var elements = originalHash.Split(Delimeter);
+            var salt = Convert.FromBase64String(elements[0]);
+            var hash = Convert.FromBase64String(elements[1]);
+
+            var hashInput = Rfc2898DeriveBytes.Pbkdf2(inputPassword, salt, _iterations, _hashAlgorithmName, _keySize);
+
+            return CryptographicOperations.FixedTimeEquals(hash, hashInput);
         }
     }
 }
