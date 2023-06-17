@@ -40,7 +40,12 @@ namespace Server.Controllers
 
             string token = await _tokenManager.CreateToken(user);
 
-            return Ok(token);
+            return Ok(new ExportUserDto()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Token = token,
+            }) ;
 
         }
         [AllowAnonymous]
@@ -60,7 +65,12 @@ namespace Server.Controllers
             }
 
             string token = await _tokenManager.CreateToken(user);
-            return Ok(token);
+            return Ok(new ExportUserDto()
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Token = token,
+            });
         }
 
     }
