@@ -11,7 +11,6 @@ namespace Server.Interfaces
 
         Task<bool> CheckIfThereIsSongById(int songId);
 
-        Task<List<Song>> GetLikedSongs(int userId);
 
     }
 }

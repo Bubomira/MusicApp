@@ -53,20 +53,7 @@ namespace Server.Controllers
 
         }
 
-        [Authorize]
-        [HttpGet("likedSongs")]
-        public async Task<IActionResult> GetUserLikedSongs()
-        {
-            var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
-
-            var songs = await _songRepository.GetLikedSongs(userId);
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var dtos = PrepareSongsDto(songs);
-            return Ok(dtos);
-        }
+     
 
         private List<NormalSongDto> PrepareSongsDto(List<Song> songs)
         {
