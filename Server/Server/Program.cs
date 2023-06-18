@@ -18,8 +18,8 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenManager, TokenManager>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
+    .AddJwtBearer( options =>
+    {        
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -29,7 +29,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidIssuer = builder.Configuration["Jwt:Issuer"],
             ValidAudience = builder.Configuration["Jwt:Audience"],
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+
         };
+
     });
 
 
@@ -53,7 +55,7 @@ if (app.Environment.IsDevelopment())
 }
 app.UseCors(builder=>builder.WithOrigins("https://localhost:3000")
 .AllowAnyMethod()
-.WithHeaders("Auth", "accept", "content-type", "origin"));
+.WithHeaders("accept", "content-type", "origin"));
 
 app.UseHttpsRedirection();
 

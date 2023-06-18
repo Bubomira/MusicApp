@@ -39,5 +39,14 @@ namespace Server.Repository
             return _musicDbContext.Songs.AnyAsync(s => s.Id == songId);
         }
 
+        public Task<List<Song>> GetLikedSongs(int userId)
+        {
+            return _musicDbContext.SongsUsers.Where(su => su.UserId == userId)
+                .Select(su => su.Song)
+                 .Include(s => s.Album)
+                .Include(s => s.Album.Performer)
+                .Include(s => s.SecondaryPerformers)
+                .ToListAsync();
+        }
     }
 }
