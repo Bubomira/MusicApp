@@ -2,7 +2,7 @@
 
 namespace Server.DTO.PlaylistDto
 {
-    public class ExportDetailedPlaylist
+    public class ExportDetailedPlaylistDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
