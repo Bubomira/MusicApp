@@ -26,13 +26,16 @@ namespace Server.Data
 
         public DbSet<SongsPlaylists> SongsPlaylists { get; set; }
 
-        public DbSet<OwnedUserPlaylists> OwnedPlaylistsUsers { get; set; }
-
         public DbSet<LikedUserPlaylists> LikedPlaylistsUsers { get; set; }
 
         public DbSet<SecondaryPerformers> SecondaryPerformers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Playlist>()
+                .HasOne(p => p.Owner)
+                .WithMany(p => p.OwnedPlaylists)
+                .HasForeignKey(p => p.OwnerId)
+                .OnDelete(DeleteBehavior.NoAction);
             //many-to-many with albums->users (liked albums)
             modelBuilder.Entity<AlbumsUsers>()
                 .HasKey(pc => new { pc.UserId, pc.AlbumId });
@@ -76,21 +79,6 @@ namespace Server.Data
                 .HasOne(sp => sp.Playlist)
                 .WithMany(sp=>sp.SongsPlaylists)
                 .HasForeignKey(sp => sp.PlaylistId);
-
-            //many-to-many with playlists->users (ownedPlaylists)
-
-            modelBuilder.Entity<OwnedUserPlaylists>()
-                .HasKey(pc => new { pc.OwnerId, pc.PlaylistId });
-
-            modelBuilder.Entity<OwnedUserPlaylists>()
-                .HasOne(pu => pu.Owner)
-                .WithMany(pu => pu.OwnedPlaylistsUsers)
-                .HasForeignKey(pu => pu.OwnerId);
-
-            modelBuilder.Entity<OwnedUserPlaylists>()
-                .HasOne(pu => pu.OwnedPlaylist)
-                .WithMany(pu => pu.OwnedPlaylistsUsers)
-                .HasForeignKey(pu => pu.PlaylistId);
 
             //many-to-many with playlists->users (likedPlaylists)
 

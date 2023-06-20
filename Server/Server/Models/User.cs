@@ -18,13 +18,13 @@ namespace Server.Models
         [Required]
         public bool IsAdmin { get; set; }
 
+        public ICollection<Playlist> OwnedPlaylists { get; set; }
         //liked albums
         public ICollection<AlbumsUsers> AlbumsUsers { get; set; }
 
         //liked songs
         public ICollection<SongsUsers> SongsUsers { get; set; }
 
-        public ICollection<OwnedUserPlaylists> OwnedPlaylistsUsers { get; set; }
 
         public ICollection<LikedUserPlaylists> LikedPlaylistsUsers { get; set; }
 

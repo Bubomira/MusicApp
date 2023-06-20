@@ -15,7 +15,10 @@ namespace Server.Models
         public int Likes { get; set; }
 
         public ICollection<SongsPlaylists> SongsPlaylists { get; set; }
-        public ICollection<OwnedUserPlaylists> OwnedPlaylistsUsers { get; set; }
+        public User Owner { get; set; }
+
+        public int OwnerId { get; set; }
+
         public ICollection<LikedUserPlaylists> LikedPlaylistsUsers { get; set; }
     }
 
