@@ -10,10 +10,10 @@ namespace Server.Controllers
     [Authorize]
     public class SongLikesController:Controller
     {
-        private readonly ISongLikesRepository _likesRepository;
+        private readonly ISongLikesRepository _likesSongsRepository;
         public SongLikesController(ISongLikesRepository likesRepository)
         {
-            _likesRepository = likesRepository;
+            _likesSongsRepository = likesRepository;
         }
 
         [HttpGet("liked/songs")]
@@ -21,12 +21,37 @@ namespace Server.Controllers
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
 
-            var songs = await _likesRepository.GetLikedSongs(userId);
+            var songs = await _likesSongsRepository.GetLikedSongs(userId);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             return Ok(songs);
+        }
+        [HttpPost("like/song/{songId}")]
+
+        public async Task<IActionResult> LikeSong([FromBody]int songId)
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            if(await _likesSongsRepository.CheckIfUserHasLikedSong(userId, songId))
+            {
+                return BadRequest("Song has already been liked!");
+            }
+             _likesSongsRepository.LikeSong(userId, songId);
+             return Ok();
+        }
+
+        [HttpPost("dislike/song/{songId}")]
+
+        public async Task<IActionResult> DislikeSong([FromBody] int songId)
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            if (!await _likesSongsRepository.CheckIfUserHasLikedSong(userId, songId))
+            {
+                return BadRequest("Song has never been liked!");
+            }
+            _likesSongsRepository.DislikeSong(userId, songId);
+            return Ok();
         }
     }
 }

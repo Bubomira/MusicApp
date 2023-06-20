@@ -6,8 +6,10 @@ namespace Server.Interfaces
     {
         Task<List<NormalSongDto>> GetLikedSongs(int userId);
 
-        Task<Song> LikeSong(int userId,int songId);
+        void LikeSong(int userId,int songId);
 
-        Task<Song> UnlikeSong(int userId,int songId);
+        void DislikeSong(int userId,int songId);
+
+        Task<bool> CheckIfUserHasLikedSong(int userId,int songId);
     }
 }
