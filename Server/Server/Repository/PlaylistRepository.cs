@@ -35,7 +35,7 @@ namespace Server.Repository
                 })
                .FirstOrDefaultAsync();
         }
-        public async void CreatePlaylist(int userId,string playlistName)
+        public async Task<Playlist> CreatePlaylist(int userId,string playlistName)
         {
             Playlist playlist = new Playlist()
             {
@@ -47,6 +47,8 @@ namespace Server.Repository
             _musicDbContext.Playlists.AddAsync(playlist);
 
             await _musicDbContext.SaveChangesAsync();
+
+            return playlist;
 
         }
         public async void UpdatePlaylist(int playlistId,string playlistName)

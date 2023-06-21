@@ -14,7 +14,7 @@ namespace Server.Interfaces
         //Crud
         Task<ExportDetailedPlaylistDto> GetPlaylistDetails(int playlistId);
 
-        void CreatePlaylist(int userId,string playlistName);
+        Task<Playlist> CreatePlaylist(int userId,string playlistName);
 
        void UpdatePlaylist(int playlistId, string playlistName);
         void DeletePlaylist(int playlistId);

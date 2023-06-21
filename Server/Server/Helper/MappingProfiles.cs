@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+using Server.DTO.PlaylistDto;
 using Server.DTO.SongDTO;
 using Server.Models;
 
@@ -25,6 +26,13 @@ namespace Server.Helper
                 opt => opt.MapFrom(src =>
                   src.SecondaryPerformers.Select(x => x.Performer.Name).ToList()));
 
+            CreateMap<Playlist, ExportNormalPlaylistDto>()
+                .ForMember(expd => expd.OwnerName,
+                opt => opt.MapFrom(p => p.Owner.Username))
+                  .ForMember(expd => expd.PlaylistId,
+                opt => opt.MapFrom(p => p.Id))
+                   .ForMember(expd => expd.PlaylistName,
+                opt => opt.MapFrom(p => p.Name));
 
         }
 
