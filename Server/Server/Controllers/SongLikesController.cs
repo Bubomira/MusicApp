@@ -16,18 +16,20 @@ namespace Server.Controllers
             _likesSongsRepository = likesRepository;
         }
 
-        [HttpGet("liked/songs")]
-        public async Task<IActionResult> GetUserLikedSongs()
-        {
-            var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+        //todo: move to profile controller
 
-            var songs = await _likesSongsRepository.GetLikedSongs(userId);
+        //[HttpGet("liked/songs")]
+        //public async Task<IActionResult> GetUserLikedSongs()
+        //{
+        //    var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+        //    var songs = await _likesSongsRepository.GetLikedSongs(userId);
 
-            return Ok(songs);
-        }
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
+
+        //    return Ok(songs);
+        //}
         [HttpPost("like/song/{songId}")]
 
         public async Task<IActionResult> LikeSong([FromBody]int songId)
