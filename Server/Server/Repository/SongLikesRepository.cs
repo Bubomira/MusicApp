@@ -42,12 +42,14 @@ namespace Server.Repository
             await _musicDbContext.SaveChangesAsync();
         }
 
-        public void DislikeSong(int userId, int songId)
+        public async void DislikeSong(int userId, int songId)
         {
             var songToBeDisliked = _musicDbContext.SongsUsers
                 .Where(su => su.SongId == songId && su.UserId == userId).FirstOrDefaultAsync();
 
             _musicDbContext.Remove(songToBeDisliked);
+
+            await _musicDbContext.SaveChangesAsync();
         }
 
         public Task<bool> CheckIfUserHasLikedSong(int userId, int songId)

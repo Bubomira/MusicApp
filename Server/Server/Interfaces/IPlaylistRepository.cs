@@ -20,7 +20,7 @@ namespace Server.Interfaces
 
         void CreatePlaylist(int userId,string playlistName);
 
-       void UpdatePlaylist(int playlistId, string playlistName));
+       void UpdatePlaylist(int playlistId, string playlistName);
         void DeletePlaylist(int playlistId);
 
         //Checkers
