@@ -64,17 +64,30 @@ namespace Server.Repository
 
             _musicDbContext.Playlists.Remove(playlist);
 
+           await _musicDbContext.SaveChangesAsync();
+
+        }
+        public async void LikePlaylist(int userId, int playlistId)
+        {
+            var userPlaylist = new LikedUserPlaylists()
+            {
+                LikerId = userId,
+                PlaylistId = playlistId
+            };
+            _musicDbContext.LikedPlaylistsUsers.AddAsync(userPlaylist);
+
             await _musicDbContext.SaveChangesAsync();
-
-        }
-        public void LikePlaylist(int userId, int playlistId)
-        {
-            throw new NotImplementedException();
         }
 
-        public void DislikePlaylist(int userId, int playlistId)
+        public async void DislikePlaylist(int userId, int playlistId)
         {
-            throw new NotImplementedException();
+            var playlistToBeDisliked = await _musicDbContext.LikedPlaylistsUsers
+                .Where(lp => lp.LikerId == userId && lp.PlaylistId == playlistId)
+                .FirstOrDefaultAsync();
+
+            _musicDbContext.LikedPlaylistsUsers.Remove(playlistToBeDisliked);
+
+            await _musicDbContext.SaveChangesAsync();
         }
 
         public Task<List<ExportDetailedPlaylistDto>> GetLikedPlaylists(int userId)
@@ -96,13 +109,12 @@ namespace Server.Repository
 
         public Task<bool> CheckIfPlaylistIsOwnedByCurrentUser(int userId, int playlistId)
         {
-            throw new NotImplementedException();
-            // return _musicDbContext.OwnedPlaylistsUsers.AnyAsync(pl => pl.PlaylistId == playlistId && pl.OwnerId == userId);
+            return _musicDbContext.Playlists.AnyAsync(p => p.Id == playlistId && p.OwnerId == userId);
         }
 
         public Task<bool> CheckIfPlaylistExist(int playlistId)
         {
-            throw new NotImplementedException();
+            return _musicDbContext.Playlists.AnyAsync(p => p.Id == playlistId);
         }
 
         public Task<Playlist> GetPlaylistById(int playlistId)
