@@ -5,9 +5,9 @@ namespace Server.Interfaces
 {
     public interface IProfileRepository
     {
-        Task<List<ExportDetailedPlaylistDto>> GetLikedPlaylists(int userId);
+        Task<List<ExportNormalPlaylistDto>> GetLikedPlaylists(int userId);
 
-        Task<List<ExportDetailedPlaylistDto>> GetOwnedPlaylists(int userId);
+        Task<List<ExportNormalPlaylistDto>> GetOwnedPlaylists(int userId);
 
         Task<List<NormalSongDto>> GetLikedSongs(int userId);
     }
