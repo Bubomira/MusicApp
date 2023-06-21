@@ -4,7 +4,6 @@ namespace Server.Interfaces
 {
     public interface ISongLikesRepository
     {
-        Task<List<NormalSongDto>> GetLikedSongs(int userId);
 
         void LikeSong(int userId,int songId);
 

@@ -5,10 +5,6 @@ namespace Server.Interfaces
 {
     public interface IPlaylistRepository
     {
-        //probably will be moved to another repo
-        Task<List<ExportDetailedPlaylistDto>> GetLikedPlaylists(int userId);
-
-        Task<List<ExportDetailedPlaylistDto>> GetOwnedPlaylists(int userId);
 
         //like-dislike
         void LikePlaylist(int userId, int playlistId);

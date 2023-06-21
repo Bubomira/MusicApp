@@ -58,7 +58,7 @@ namespace Server.Repository
            await _musicDbContext.SaveChangesAsync();
         }
 
-        public async void DeletePlaylist(int playlistId,int ownerId)
+        public async void DeletePlaylist(int playlistId)
         {
             var playlist = await GetPlaylistById(playlistId);
 
@@ -89,18 +89,6 @@ namespace Server.Repository
 
             await _musicDbContext.SaveChangesAsync();
         }
-
-        public Task<List<ExportDetailedPlaylistDto>> GetLikedPlaylists(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<ExportDetailedPlaylistDto>> GetOwnedPlaylists(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
-
 
         public Task<bool> CheckIfPlaylistIsLikedByCurrentUser(int userId, int playlistId)
         {

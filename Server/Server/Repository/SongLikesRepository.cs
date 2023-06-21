@@ -15,21 +15,6 @@ namespace Server.Repository
             _musicDbContext = musicDbContext;
 
         }
-        public Task<List<NormalSongDto>> GetLikedSongs(int userId)
-        {
-            return _musicDbContext.SongsUsers.Where(su => su.UserId == userId)
-                .Select(su => new NormalSongDto()
-                {
-                    Name = su.Song.Name,
-                    Id = su.Song.Id,
-                    PerformerName = su.Song.Album.Performer.Name,
-                    SecondaryPerformers = su.Song.SecondaryPerformers
-                    .Select(sp => sp.Performer.Name).ToList()
-                }
-                )
-                .ToListAsync();
-        }
-
         public async void LikeSong(int userId, int songId)
         { 
             var songToBeLiked = new SongsUsers()
