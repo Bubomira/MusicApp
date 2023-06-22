@@ -13,28 +13,17 @@ namespace Server.Repository
         {
             _musicDbContext = musicDbContext;
         }
-        public Task<ExportDetailedPlaylistDto> GetPlaylistDetails(int playlistId)
+        public Task<Playlist> GetPlaylistById(int playlistId)
         {
             return _musicDbContext.Playlists.Where(p => p.Id == playlistId)
-                .Select(p => new ExportDetailedPlaylistDto()
-                {
-                    Id = p.Id,
-                    OwnerId = p.OwnerId,
-                    Likes = p.Likes,
-                    Name = p.Name,
-                    OwnerName = p.Owner.Username,
-                    Songs = p.SongsPlaylists
-                           .Where(sp => sp.PlaylistId == playlistId)
-                           .Select(sp => new DTO.SongDTO.NormalSongDto()
-                           {
-                               Id= sp.Song.Id,
-                               Name = sp.Song.Name,
-                               PerformerName = sp.Song.Album.Performer.Name,
-                               SecondaryPerformers = sp.Song.SecondaryPerformers.Select(sp=>sp.Performer.Name).ToList()
-                           }).ToList()
-                })
-               .FirstOrDefaultAsync();
+                .Include(p=>p.Owner)
+                .Include(p=>p.SongsPlaylists)
+                .ThenInclude(sp=>sp.Song)
+                .ThenInclude(s=>s.SongPerformers)      
+                .ThenInclude(s=>s.Performer)
+                .FirstAsync();
         }
+       
         public async Task<Playlist> CreatePlaylist(int userId,string playlistName)
         {
             Playlist playlist = new Playlist()
@@ -107,9 +96,5 @@ namespace Server.Repository
             return _musicDbContext.Playlists.AnyAsync(p => p.Id == playlistId);
         }
 
-        public Task<Playlist> GetPlaylistById(int playlistId)
-        {
-            return _musicDbContext.Playlists.Where(p => p.Id == playlistId).FirstOrDefaultAsync();
-        }
     }
 }

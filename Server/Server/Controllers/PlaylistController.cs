@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTO.PlaylistDto;
+using Server.DTO.SongDTO;
 using Server.Interfaces;
 using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
@@ -29,7 +30,9 @@ namespace Server.Controllers
 
                 return NotFound();
             }
-            return Ok(await _playlistRepository.GetPlaylistDetails(playlistId));
+            var playlist = await _playlistRepository.GetPlaylistById(playlistId);
+            var detailedPlaylist = _mapper.Map<ExportDetailedPlaylistDto>(playlist);
+            return Ok(detailedPlaylist);
         }
 
         [Authorize]

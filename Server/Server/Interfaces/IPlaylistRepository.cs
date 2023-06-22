@@ -12,7 +12,7 @@ namespace Server.Interfaces
         void DislikePlaylist(int userId, int playlistId);
 
         //Crud
-        Task<ExportDetailedPlaylistDto> GetPlaylistDetails(int playlistId);
+       public Task<Playlist> GetPlaylistById(int playlistId);
 
         Task<Playlist> CreatePlaylist(int userId,string playlistName);
 
@@ -25,8 +25,6 @@ namespace Server.Interfaces
         Task<bool> CheckIfPlaylistIsOwnedByCurrentUser(int userId, int playlistId);
 
         Task<bool> CheckIfPlaylistExist(int playlistId);
-
-        Task<Playlist> GetPlaylistById(int playlistId);
 
 
     }
