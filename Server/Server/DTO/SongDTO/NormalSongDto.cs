@@ -7,10 +7,7 @@ namespace Server.DTO.SongDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public ICollection<string>? Performers { get; set; }
 
-        [SourceMember(nameof(Song.Album.Performer.Name))]
-        public string PerformerName { get; set; }
-
-        public ICollection<string>? SecondaryPerformers { get; set; }
     }
 }

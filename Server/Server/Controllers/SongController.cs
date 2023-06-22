@@ -54,7 +54,6 @@ namespace Server.Controllers
         }
 
      
-
         private List<NormalSongDto> PrepareSongsDto(List<Song> songs)
         {
             List<NormalSongDto> dtos = new List<NormalSongDto>();

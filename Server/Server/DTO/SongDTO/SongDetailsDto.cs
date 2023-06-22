@@ -14,11 +14,10 @@ namespace Server.DTO.SongDTO
 
         [SourceMember(nameof(Song.Album.Name))]
         public string AlbumName { get; set; }
+        public ICollection<string>? Performers { get; set; }
 
-        [SourceMember(nameof(Song.Album.Performer.Name))]
-        public string PerformerName { get; set; }
+        public int MainPerformerId { get; set; }
 
-        public ICollection<string>? SecondaryPerformers { get; set; }
 
     }
 }

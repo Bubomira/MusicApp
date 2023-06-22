@@ -19,8 +19,8 @@ namespace Server.Repository
         {
             return _musicDbContext.Songs
                  .Take(10)
-                 .Include(s => s.SecondaryPerformers)
-                 .Include(s => s.Album.Performer)
+                 .Include(s => s.SongPerformers)
+                 .ThenInclude(s => s.Performer)
                  .ToListAsync();
             
         }
@@ -29,8 +29,8 @@ namespace Server.Repository
         {
             return _musicDbContext.Songs.Where(s => s.Id == songId)
                 .Include(s=>s.Album)
-                .Include(s=>s.Album.Performer)
-                .Include(s=>s.SecondaryPerformers)
+                .Include(s=>s.SongPerformers)
+                .ThenInclude(s => s.Performer)
                 .FirstOrDefaultAsync();
         }
 
