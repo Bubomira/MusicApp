@@ -11,20 +11,17 @@ namespace Server.Helper
         public MappingProfiles()
         {
             CreateMap<Song, SongDetailsDto>()
-                .ForMember(sdto => sdto.PerformerName,
-                   opt => opt.MapFrom(s => s.Album.Performer.Name))
-                .ForMember(s => s.AlbumName,
-                   opt => opt.MapFrom(s => s.Album.Name))
-                .ForMember(s => s.SecondaryPerformers,
+                .ForMember(s => s.Performers,
                 opt => opt.MapFrom(src =>
-                  src.SecondaryPerformers.Select(x => x.Performer.Name).ToList()));
+                  src.SongPerformers.Select(x => x.Performer.Name).ToList()))
+                .ForMember(s => s.MainPerformerId,
+                opt => opt.MapFrom(src =>
+                src.SongPerformers.Select(s => s.PerformerId).FirstOrDefault()));
 
             CreateMap<Song,NormalSongDto>()
-                .ForMember(sdto=>sdto.PerformerName,
-                opt=>opt.MapFrom(s=>s.Album.Performer.Name))
-                .ForMember(s => s.SecondaryPerformers,
+                .ForMember(s => s.Performers,
                 opt => opt.MapFrom(src =>
-                  src.SecondaryPerformers.Select(x => x.Performer.Name).ToList()));
+                  src.SongPerformers.Select(x => x.Performer.Name).ToList()));
 
             CreateMap<Playlist, ExportNormalPlaylistDto>()
                 .ForMember(expd => expd.OwnerName,
@@ -33,6 +30,18 @@ namespace Server.Helper
                 opt => opt.MapFrom(p => p.Id))
                    .ForMember(expd => expd.PlaylistName,
                 opt => opt.MapFrom(p => p.Name));
+
+            CreateMap<Playlist, ExportDetailedPlaylistDto>()
+              .ForMember(expd => expd.OwnerName,
+              opt => opt.MapFrom(p => p.Owner.Username))
+               .ForMember(expd => expd.Songs,
+              opt => opt.MapFrom(s => s.SongsPlaylists
+              .Select(sp => new NormalSongDto() {
+                  Id = sp.SongId,
+                  Name = sp.Song.Name,
+                  Performers = sp.Song.SongPerformers.Select(ps => ps.Performer.Name).ToList(),
+              }).ToList()));
+
 
         }
 
