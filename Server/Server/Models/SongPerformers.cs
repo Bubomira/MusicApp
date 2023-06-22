@@ -1,6 +1,6 @@
 ﻿namespace Server.Models
 {
-    public class SecondaryPerformers
+    public class SongPerformers
     {
         public int SongId { get; set; }
 

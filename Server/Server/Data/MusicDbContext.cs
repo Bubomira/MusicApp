@@ -28,7 +28,7 @@ namespace Server.Data
 
         public DbSet<LikedUserPlaylists> LikedPlaylistsUsers { get; set; }
 
-        public DbSet<SecondaryPerformers> SecondaryPerformers { get; set; }
+        public DbSet<SongPerformers> SongPerformers { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Playlist>()
@@ -99,18 +99,18 @@ namespace Server.Data
 
             //many-to-many with songs->performers
 
-            modelBuilder.Entity<SecondaryPerformers>()
+            modelBuilder.Entity<SongPerformers>()
                 .HasKey(pc => new { pc.SongId, pc.PerformerId });
 
-            modelBuilder.Entity<SecondaryPerformers>()
+            modelBuilder.Entity<SongPerformers>()
                 .HasOne(sp => sp.Song)
-                .WithMany(sp => sp.SecondaryPerformers)
+                .WithMany(sp => sp.SongPerformers)
                 .HasForeignKey(sp => sp.SongId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<SecondaryPerformers>()
+            modelBuilder.Entity<SongPerformers>()
                 .HasOne(sp => sp.Performer)
-                .WithMany(sp => sp.SecondaryPerformers)
+                .WithMany(sp => sp.SongPerformers)
                 .HasForeignKey(sp => sp.PerformerId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

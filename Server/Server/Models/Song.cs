@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Server.Migrations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Server.Models
 {
@@ -22,7 +23,7 @@ namespace Server.Models
 
         public ICollection<SongsPlaylists> SongsPlaylists { get; set; }
 
-        public ICollection<SecondaryPerformers> SecondaryPerformers { get; set; }
+        public ICollection<SongPerformers> SongPerformers { get; set; }
 
     }
 }

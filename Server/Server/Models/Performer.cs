@@ -15,7 +15,7 @@ namespace Server.Models
 
         public virtual ICollection<Album> Albums { get; set; }
 
-        public ICollection<SecondaryPerformers> SecondaryPerformers { get; set; }
+        public ICollection<SongPerformers> SongPerformers { get; set; }
 
     }
 }
