@@ -8,6 +8,6 @@
 
         public User Liker { get; set; }
 
-        public Playlist LikedPlaylist { get; set; }
+        public  Playlist LikedPlaylist { get; set; }
     }
 }
