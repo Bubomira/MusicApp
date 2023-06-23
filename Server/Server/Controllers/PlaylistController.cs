@@ -51,5 +51,47 @@ namespace Server.Controllers
 
             return Ok(mappedPlaylist);
         }
+
+        [Authorize]
+        [HttpPut("update/{playlistId}")]
+
+        public async Task<IActionResult> UpdatePlaylist([FromBody] string playlistName,int playlistId)
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+
+            if(! await _playlistRepository.CheckIfPlaylistExist(playlistId))
+            {
+                return NotFound();
+            }
+            if (!await _playlistRepository.CheckIfPlaylistIsOwnedByCurrentUser(userId, playlistId))
+            {
+                return Forbid();
+            }
+            _playlistRepository.UpdatePlaylist(playlistId, playlistName);
+            return NoContent();
+
+        }
+
+
+        [Authorize]
+        [HttpDelete("delete/{playlistId}")]
+
+        public async Task<IActionResult> DeletePlaylist(int playlistId)
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+
+            if (!await _playlistRepository.CheckIfPlaylistExist(playlistId))
+            {
+                return NotFound();
+            }
+            if (!await _playlistRepository.CheckIfPlaylistIsOwnedByCurrentUser(userId, playlistId))
+            {
+                return Forbid();
+            }
+
+            _playlistRepository.DeletePlaylist(playlistId);
+
+            return NoContent();
+        }
     }
 }
