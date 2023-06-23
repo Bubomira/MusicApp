@@ -16,7 +16,7 @@ namespace Server.Controllers
         private readonly IPlaylistRepository _playlistRepository;
         private readonly IMapper _mapper;
 
-        public PlaylistController(IPlaylistRepository playlistRepository,IMapper mapper)
+        public PlaylistController(IPlaylistRepository playlistRepository, IMapper mapper)
         {
             _playlistRepository = playlistRepository;
             _mapper = mapper;
@@ -39,9 +39,9 @@ namespace Server.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> CreatePlaylist([FromBody] string playlistName)
         {
-          var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
 
-          var playlist = await _playlistRepository.CreatePlaylist(userId, playlistName);
+            var playlist = await _playlistRepository.CreatePlaylist(userId, playlistName);
 
             if (!ModelState.IsValid)
             {
@@ -55,11 +55,11 @@ namespace Server.Controllers
         [Authorize]
         [HttpPut("update/{playlistId}")]
 
-        public async Task<IActionResult> UpdatePlaylist([FromBody] string playlistName,int playlistId)
+        public async Task<IActionResult> UpdatePlaylist([FromBody] string playlistName, int playlistId)
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
 
-            if(! await _playlistRepository.CheckIfPlaylistExist(playlistId))
+            if (!await _playlistRepository.CheckIfPlaylistExist(playlistId))
             {
                 return NotFound();
             }
@@ -93,5 +93,49 @@ namespace Server.Controllers
 
             return NoContent();
         }
+
+        [Authorize]
+        [HttpGet("like/{playlistId}")]
+
+        public async Task<IActionResult> LikePlaylist(int playlistId)
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            if (!await _playlistRepository.CheckIfPlaylistExist(playlistId))
+            {
+                return NotFound();
+            }
+            if (await _playlistRepository.CheckIfPlaylistIsOwnedByCurrentUser(userId, playlistId)
+                || await _playlistRepository.CheckIfPlaylistIsLikedByCurrentUser(userId,playlistId))
+            {
+                return Forbid();
+            }
+
+            _playlistRepository.LikePlaylist(userId, playlistId);
+
+            return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("dislike/{playlistId}")]
+
+        public async Task<IActionResult> Dislike(int playlistId)
+        {
+            var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
+            if (!await _playlistRepository.CheckIfPlaylistExist(playlistId))
+            {
+                return NotFound();
+            }
+            if (!await _playlistRepository.CheckIfPlaylistIsLikedByCurrentUser(userId, playlistId)
+                || await _playlistRepository.CheckIfPlaylistIsOwnedByCurrentUser(userId, playlistId))
+            {
+                return Forbid();
+            }
+
+            _playlistRepository.DislikePlaylist(userId, playlistId);
+
+            return NoContent();
+        }
+
+
     }
 }
