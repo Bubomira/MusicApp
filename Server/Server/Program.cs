@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Server.Data;
 using Server.Interfaces;
+using Server.Interfaces.ServiceInterfaces;
 using Server.Repository;
 using Server.Services;
 using System.Text;
@@ -36,8 +37,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 builder.Services.AddScoped<ISongRepository, SongRepository>();
 builder.Services.AddScoped<IPlaylistRepository, PlaylistRepository>();
+builder.Services.AddScoped<IAlbumRepository, AlbumRepository>();
+
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
