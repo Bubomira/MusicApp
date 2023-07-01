@@ -11,5 +11,6 @@ namespace Server.Interfaces
         Task<List<SongsUsers>> GetLikedSongs(int userId);
 
         Task<List<AlbumsUsers>> GetLikedAlbums(int userId);
+
     }
 }
