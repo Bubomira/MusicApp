@@ -9,5 +9,7 @@ namespace Server.Interfaces
         Task<List<Playlist>> GetOwnedPlaylists(int userId);
 
         Task<List<SongsUsers>> GetLikedSongs(int userId);
+
+        Task<List<AlbumsUsers>> GetLikedAlbums(int userId);
     }
 }

@@ -18,14 +18,13 @@ namespace Server.Repository
         {
             return _musicDbContext.SongsUsers.Where(su => su.UserId == userId)
                 .Include(su => su.Song)
-               .Include(su => su.Song.Album.Performer)
+               .Include(su => su.Song.SongPerformers)
                 .ToListAsync();
         }
         public Task<List<LikedUserPlaylists>> GetLikedPlaylists(int userId)
         {
             return _musicDbContext.LikedPlaylistsUsers.Where(lp => lp.LikerId == userId)
                 .Include(lp=>lp.LikedPlaylist)
-                .Include(lp=>lp.Liker)
                 .ToListAsync();
 
         }
@@ -34,9 +33,16 @@ namespace Server.Repository
         {
             return _musicDbContext.Playlists
                  .Where(p => p.OwnerId == userId)
-                 .Include(p => p.Owner)
                  .ToListAsync();
         }
 
+        public Task<List<AlbumsUsers>> GetLikedAlbums(int userId)
+        {
+            return _musicDbContext.AlbumsUsers
+                 .Where(au => au.UserId == userId)
+                 .Include(au => au.Album)
+                 .ThenInclude(a=>a.Performer)
+                 .ToListAsync();
+        }
     }
 }
