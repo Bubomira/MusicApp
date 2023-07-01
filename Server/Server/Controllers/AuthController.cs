@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Server.DTO.UserDto;
 using Server.Interfaces;
+using Server.Interfaces.ServiceInterfaces;
 using Server.Models;
 
 namespace Server.Controllers

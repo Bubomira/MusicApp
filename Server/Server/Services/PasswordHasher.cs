@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Server.Interfaces;
+using Server.Interfaces.ServiceInterfaces;
 using System.Security.Cryptography;
 using System.Text;
 

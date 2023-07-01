@@ -1,6 +1,6 @@
 ﻿using Server.Models;
 
-namespace Server.Interfaces
+namespace Server.Interfaces.ServiceInterfaces
 {
     public interface ITokenManager
     {
