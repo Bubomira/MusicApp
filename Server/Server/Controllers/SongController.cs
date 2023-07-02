@@ -5,6 +5,7 @@ using Server.DTO.SongDTO;
 using Server.Helper;
 using Server.Interfaces;
 using Server.Models;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 
@@ -29,7 +30,7 @@ namespace Server.Controllers
             var songs =await _songRepository.GetWeeklySongs();
             if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
-            var dtos = PrepareSongsDto(songs);
+            var dtos = _mapper.Map<List<NormalSongDto>>(songs);
 
             return Ok(dtos);
         }
@@ -81,15 +82,5 @@ namespace Server.Controllers
             return Ok();
         }
 
-
-        private List<NormalSongDto> PrepareSongsDto(List<Song> songs)
-        {
-            List<NormalSongDto> dtos = new List<NormalSongDto>();
-            foreach (var song in songs)
-            {
-                dtos.Add(_mapper.Map<NormalSongDto>(song));
-            }
-            return dtos;
-        }
     }
 }
