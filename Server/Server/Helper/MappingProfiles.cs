@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Server.DTO.AlbumDto;
+using Server.DTO.PerformerDto;
 using Server.DTO.PlaylistDto;
 using Server.DTO.SongDTO;
 using Server.Models;
@@ -72,6 +73,15 @@ namespace Server.Helper
                   Name = s.Name,
                   Performers = s.SongPerformers.Select(ps => ps.Performer.Name).ToList(),
               }).ToList()));
+
+            CreateMap<Performer, PerformerDto>()
+                .ForMember(pd => pd.PopularSongs,
+                opt => opt.MapFrom(p => p.SongPerformers
+                .Select(sp => new PopularSongDto
+                {
+                    Id = sp.SongId,
+                    Name = sp.Song.Name,
+                }).ToList()));
         }
     }
 
