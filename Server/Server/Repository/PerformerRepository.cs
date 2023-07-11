@@ -27,6 +27,8 @@ namespace Server.Repository
         public Task<Performer> GetPerformerById(int performerId)
         {
             return _musicDbContext.Performers.Where(p => p.Id == performerId)
+                 .Include(s=>s.SongPerformers)
+                 .ThenInclude(sp=>sp.Song)
                 .FirstOrDefaultAsync();
         }
 
