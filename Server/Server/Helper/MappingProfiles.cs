@@ -33,6 +33,14 @@ namespace Server.Helper
              opt => opt.MapFrom(src =>
                src.Song.Name));
 
+            CreateMap<SongPerformers, NormalSongDto>()
+            .ForMember(s => s.Performers,
+            opt => opt.MapFrom(src =>
+              src.Song.SongPerformers.Select(x => x.Performer.Name).ToList()))
+             .ForMember(s => s.Name,
+            opt => opt.MapFrom(src =>
+              src.Song.Name));
+
 
             CreateMap<Playlist, ExportNormalPlaylistDto>()
                 .ForMember(expd => expd.OwnerName,
