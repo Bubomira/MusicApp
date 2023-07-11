@@ -39,6 +39,7 @@ namespace Server.Repository
                 .Where(sp => sp.Performer.Id == performerId &&
                 ! sp.Performer.Albums.SelectMany(a => a.Songs.Select(s => s.Id))
                  .Contains(sp.SongId))
+                .Include(sp=>sp.Song)
                 .ToListAsync();
         }
     }
