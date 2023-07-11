@@ -77,7 +77,7 @@ namespace Server.Helper
             CreateMap<Performer, PerformerDto>()
                 .ForMember(pd => pd.PopularSongs,
                 opt => opt.MapFrom(p => p.SongPerformers
-                .Select(sp => new PopularSongDto
+                .Select(sp => new PopularSongDto()
                 {
                     Id = sp.SongId,
                     Name = sp.Song.Name,
