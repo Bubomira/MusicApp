@@ -6,8 +6,8 @@ using Server.Interfaces;
 
 namespace Server.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
+    [ApiController]
     public class PerformerController:Controller
     {
         private readonly IPerformerRepository _performerRepository;

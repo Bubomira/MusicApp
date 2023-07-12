@@ -57,6 +57,7 @@ namespace Server.Controllers
             return Ok(ownedPlaylistListDto);
         }
 
+        [HttpGet("likedAlbums")]
         public async Task<IActionResult> GetLikedAlbums()
         {
             var userId = int.Parse(User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value);
